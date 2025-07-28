@@ -32,6 +32,13 @@ import io
 import easyocr
 import getpass
 
+import pandas as pd
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+from matplotlib.ticker import MaxNLocator
+import matplotlib.font_manager as fm
+import numpy as np
+
 # PIL兼容性补丁 - 解决ANTIALIAS被弃用的问题
 try:
     from PIL import Image
@@ -689,6 +696,73 @@ class NJUElectricMonitor:
                         continue
 
             self.logger.info(f"数据已保存: {remaining_electricity} 度")
+
+            # 生成网页版类似的曲线图并保存为PNG
+            try:
+                
+                csv_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'electricity_data.csv')
+                png_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'electricity_trend.png')
+                df = pd.read_csv(csv_path)
+                df['time'] = pd.to_datetime(df['time'])
+                df_sorted = df.sort_values('time')
+
+                # 设置深色科技感风格
+                plt.style.use('dark_background')
+                fig, ax = plt.subplots(figsize=(9, 4), dpi=200)
+                fig.patch.set_facecolor('#141e30')
+                ax.set_facecolor('#0a1428')
+
+                # 线条和点的颜色
+                line_color = '#1de9b6'
+                marker_color = '#00eaff'
+                grid_color = 'rgba(29,233,182,0.15)'
+                grid_color = (29/255, 233/255, 182/255, 0.15)
+                font_color = '#b2e6ff'
+                title_color = '#00eaff'
+
+                # 绘制曲线和点
+                ax.plot(df_sorted['time'], df_sorted['num'],
+                        color=line_color, linewidth=2.5, marker='o', markersize=6,
+                        markerfacecolor=marker_color, markeredgewidth=2, markeredgecolor=marker_color, zorder=3)
+
+                # 设置标题和标签
+                ax.set_title('电费变化曲线', fontsize=18, color=title_color, pad=18, fontweight='bold', fontname='Microsoft YaHei')
+                ax.set_xlabel('时间', fontsize=13, color=font_color, labelpad=10, fontname='Microsoft YaHei')
+                ax.set_ylabel('剩余电量 (度)', fontsize=13, color=font_color, labelpad=10, fontname='Microsoft YaHei')
+
+                # 坐标轴刻度
+                ax.tick_params(axis='x', colors=font_color, labelsize=10, rotation=30)
+                ax.tick_params(axis='y', colors=font_color, labelsize=10)
+                ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d %H:%M'))
+                ax.xaxis.set_major_locator(mdates.AutoDateLocator(maxticks=8))
+                ax.yaxis.set_major_locator(MaxNLocator(integer=True))
+
+                # 虚线网格
+                ax.grid(True, which='major', axis='both', linestyle='--', linewidth=1, color=grid_color, alpha=1)
+
+                # 去除顶部和右侧边框
+                ax.spines['top'].set_visible(False)
+                ax.spines['right'].set_visible(False)
+                for spine in ['bottom', 'left']:
+                    ax.spines[spine].set_color(font_color)
+                    ax.spines[spine].set_linewidth(1.2)
+
+                # 设置字体（优先微软雅黑）
+                try:
+                    plt.rcParams['font.sans-serif'] = ['Microsoft YaHei', 'Segoe UI', 'Arial Unicode MS']
+                except Exception:
+                    pass
+
+                # 图例（可选）
+                # ax.legend(['剩余电量'], loc='upper right', fontsize=11, facecolor='#141e30', edgecolor='none', labelcolor=font_color)
+
+                # 调整边距
+                plt.tight_layout(rect=[0, 0, 1, 0.97])
+                plt.savefig(png_path, facecolor=fig.get_facecolor(), bbox_inches='tight')
+                plt.close(fig)
+                self.logger.info(f"电费变化曲线图已保存到: {png_path}")
+            except Exception as e:
+                self.logger.warning(f"生成电费曲线图PNG失败: {e}")
         except Exception as e:
             self.logger.error(f"保存数据时出错: {e}")
     
