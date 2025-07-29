@@ -26,6 +26,7 @@ set commitmsg=%dt:~0,4%-%dt:~4,2%-%dt:~6,2% %dt:~8,2%:%dt:~10,2% 自动提交电
 
 git add .
 git commit -m "%commitmsg%"
+git pull --rebase
 git push
 
 echo.
