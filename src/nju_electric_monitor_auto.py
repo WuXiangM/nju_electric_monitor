@@ -298,9 +298,11 @@ class NJUElectricMonitor:
                                 captcha_text += text.strip()
                         
                         captcha_text = re.sub(r'[^a-zA-Z0-9]', '', captcha_text)
-                        if captcha_text:
+                        if len(captcha_text) == 4:
                             self.logger.info(f"方法{i+2}识别结果: {captcha_text}")
                             return captcha_text
+                        else:
+                            self.logger.info(f"方法{i+2}识别结果长度不为4，自动重试。实际结果: {captcha_text}")
                 except Exception as e:
                     self.logger.warning(f"方法{i+2}识别失败: {e}")
             
