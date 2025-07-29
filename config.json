@@ -1,6 +1,6 @@
 {
-    "username": USERNAME,
-    "password": PASSWORD,
+    "username": "${USERNAME}",
+    "password": "${PASSWORD}",
     "auto_login": true,
     "headless_mode": true,
     "captcha_retry_count": 8,
