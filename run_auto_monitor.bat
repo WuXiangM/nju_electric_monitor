@@ -24,7 +24,7 @@ git status
 for /f "tokens=1-2 delims=." %%a in ('wmic os get localdatetime ^| findstr /r /c:"^[0-9]"') do set dt=%%a
 set commitmsg=%dt:~0,4%-%dt:~4,2%-%dt:~6,2% %dt:~8,2%:%dt:~10,2% 自动提交电费变更
 
-git add .
+git add . ":!config.json" 
 git commit -m "%commitmsg%"
 git pull --rebase
 git push
