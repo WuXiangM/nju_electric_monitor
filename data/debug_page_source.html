@@ -2,7 +2,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <meta name="_csrf" content="67084612-1929-4f60-8fe0-ff33721b9444">
+    <meta name="_csrf" content="86eca64d-6afc-409c-8578-1f65f2a60df5">
     <meta name="_csrf_header" content="X-CSRF-TOKEN">
     <link type="image/png" href="/epay/images/nju/icon.png" rel="shortcut icon">
     <link type="text/css" rel="stylesheet" href="/epay/css/wxpage/weui.min.css">
@@ -125,7 +125,7 @@
             },
             charge_v2(){
                 $.showLoading("正在加载");
-                let amount = this.money[this.index].value
+                let amount = 0.01
                 let check = this.check
                 let params = {
                     "sysid":check.sysId,
