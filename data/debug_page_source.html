@@ -2,7 +2,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <meta name="_csrf" content="86eca64d-6afc-409c-8578-1f65f2a60df5">
+    <meta name="_csrf" content="888e86e2-715e-43a3-8406-db51e6539437">
     <meta name="_csrf_header" content="X-CSRF-TOKEN">
     <link type="image/png" href="/epay/images/nju/icon.png" rel="shortcut icon">
     <link type="text/css" rel="stylesheet" href="/epay/css/wxpage/weui.min.css">
@@ -106,46 +106,6 @@
                         if (ret.retcode == '0') {
                             let url = encodeURIComponent(window.location.origin + "/epay/h5/nju/electric/index")
                             window.location.href='/epay/mgate/cert/unifiedorder?merchaccno=' + ret.shopid + '&timestamp='
-                                + ret.timestamp + '&out_trade_no=' + ret.refno + '&out_trade_name='+encodeURIComponent('电费充值')+'&total_amount=' + ret.amt * 100
-                                + '&remark=' + encodeURIComponent(check.sysName + '/' + check.buildName + '/' + check.roomName)
-                                + '&return_url=' + url;
-                        } else {
-                            this.errmsg =  ret.retmsg || '初始化失败！'
-                            $('.wapat').show()
-
-                        }
-                    },
-                    error: (e) => {
-                        $.hideLoading();
-                        this.errmsg = e.errmsg || '请求出现异常'
-                        $('.wapat').show()
-
-                    }
-                })
-            },
-            charge_v2(){
-                $.showLoading("正在加载");
-                let amount = 0.01
-                let check = this.check
-                let params = {
-                    "sysid":check.sysId,
-                    "areaid":check.areaId,
-                    "buildid":check.buildId,
-                    "roomid":check.roomId,
-                    "amount":amount
-                }
-                $.ajax("/epay/h5/elecPayInit.json", {
-                    data: params,
-                    type: "POST",
-                    dataType: "json",
-                    beforeSend: function (xhr){
-                        return beforeSendAjax(xhr)
-                    },
-                    success: (ret) =>{
-                        $.hideLoading();
-                        if (ret.retcode == '0') {
-                            let url = encodeURIComponent(window.location.origin + "/epay/h5/nju/electric/index")
-                            window.location.href='/epay/h5/unifiedorder?merchaccno=' + ret.shopid + '&timestamp='
                                 + ret.timestamp + '&out_trade_no=' + ret.refno + '&out_trade_name='+encodeURIComponent('电费充值')+'&total_amount=' + ret.amt * 100
                                 + '&remark=' + encodeURIComponent(check.sysName + '/' + check.buildName + '/' + check.roomName)
                                 + '&return_url=' + url;
