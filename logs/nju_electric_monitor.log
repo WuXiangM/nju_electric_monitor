@@ -11806,3 +11806,26 @@ Stacktrace:
 2025-09-04 00:03:21,164 - INFO - 数据已保存: 49.0 度
 2025-09-04 00:03:21,602 - INFO - 电费变化曲线图已保存到: D:\Documents\Github\nju_electric_monitor\src\..\data\electricity_trend.png
 2025-09-04 00:03:21,603 - INFO - 监控流程完成
+2025-09-04 09:03:04,344 - ERROR - 浏览器驱动初始化失败: Message: session not created: probably user data directory is already in use, please specify a unique value for --user-data-dir argument, or don't use --user-data-dir
+Stacktrace:
+	GetHandleVerifier [0x0x7ff669d3e935+77845]
+	GetHandleVerifier [0x0x7ff669d3e990+77936]
+	(No symbol) [0x0x7ff669af9cda]
+	(No symbol) [0x0x7ff669b38909]
+	(No symbol) [0x0x7ff669b329e5]
+	(No symbol) [0x0x7ff669b862ce]
+	(No symbol) [0x0x7ff669b85a60]
+	(No symbol) [0x0x7ff669b786a3]
+	(No symbol) [0x0x7ff669b41791]
+	(No symbol) [0x0x7ff669b42523]
+	GetHandleVerifier [0x0x7ff66a01684d+3059501]
+	GetHandleVerifier [0x0x7ff66a010c0d+3035885]
+	GetHandleVerifier [0x0x7ff66a030400+3164896]
+	GetHandleVerifier [0x0x7ff669d58c3e+185118]
+	GetHandleVerifier [0x0x7ff669d6054f+216111]
+	GetHandleVerifier [0x0x7ff669d472e4+113092]
+	GetHandleVerifier [0x0x7ff669d47499+113529]
+	GetHandleVerifier [0x0x7ff669d2e298+10616]
+	BaseThreadInitThunk [0x0x7ffbb37fe8d7+23]
+	RtlUserThreadStart [0x0x7ffbb457c34c+44]
+
