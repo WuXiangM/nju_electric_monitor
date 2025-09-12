@@ -14684,3 +14684,29 @@ Stacktrace:
 2025-09-12 18:03:23,442 - INFO - 数据已保存: 40.62 度
 2025-09-12 18:03:23,768 - INFO - 电费变化曲线图已保存到: D:\Documents\Github\nju_electric_monitor\src\..\data\electricity_trend.png
 2025-09-12 18:03:23,768 - INFO - 监控流程完成
+2025-09-12 21:03:03,374 - ERROR - 浏览器驱动初始化失败: Message: session not created: This version of ChromeDriver only supports Chrome version 138
+Current browser version is 140.0.7339.128 with binary path C:\Program Files\Google\Chrome\Application\chrome.exe
+Stacktrace:
+	GetHandleVerifier [0x0x7ff69312e935+77845]
+	GetHandleVerifier [0x0x7ff69312e990+77936]
+	(No symbol) [0x0x7ff692ee9cda]
+	(No symbol) [0x0x7ff692f2e53f]
+	(No symbol) [0x0x7ff692f2d58b]
+	(No symbol) [0x0x7ff692f26d7d]
+	(No symbol) [0x0x7ff692f229e5]
+	(No symbol) [0x0x7ff692f762ce]
+	(No symbol) [0x0x7ff692f75a60]
+	(No symbol) [0x0x7ff692f686a3]
+	(No symbol) [0x0x7ff692f31791]
+	(No symbol) [0x0x7ff692f32523]
+	GetHandleVerifier [0x0x7ff69340684d+3059501]
+	GetHandleVerifier [0x0x7ff693400c0d+3035885]
+	GetHandleVerifier [0x0x7ff693420400+3164896]
+	GetHandleVerifier [0x0x7ff693148c3e+185118]
+	GetHandleVerifier [0x0x7ff69315054f+216111]
+	GetHandleVerifier [0x0x7ff6931372e4+113092]
+	GetHandleVerifier [0x0x7ff693137499+113529]
+	GetHandleVerifier [0x0x7ff69311e298+10616]
+	BaseThreadInitThunk [0x0x7ff8f54de8d7+23]
+	RtlUserThreadStart [0x0x7ff8f6d9c34c+44]
+
