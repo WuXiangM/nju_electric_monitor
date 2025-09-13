@@ -14736,3 +14736,29 @@ Stacktrace:
 	BaseThreadInitThunk [0x0x7ff8f54de8d7+23]
 	RtlUserThreadStart [0x0x7ff8f6d9c34c+44]
 
+2025-09-13 09:03:02,641 - ERROR - 浏览器驱动初始化失败: Message: session not created: This version of ChromeDriver only supports Chrome version 138
+Current browser version is 140.0.7339.128 with binary path C:\Program Files\Google\Chrome\Application\chrome.exe
+Stacktrace:
+	GetHandleVerifier [0x0x7ff607a8e935+77845]
+	GetHandleVerifier [0x0x7ff607a8e990+77936]
+	(No symbol) [0x0x7ff607849cda]
+	(No symbol) [0x0x7ff60788e53f]
+	(No symbol) [0x0x7ff60788d58b]
+	(No symbol) [0x0x7ff607886d7d]
+	(No symbol) [0x0x7ff6078829e5]
+	(No symbol) [0x0x7ff6078d62ce]
+	(No symbol) [0x0x7ff6078d5a60]
+	(No symbol) [0x0x7ff6078c86a3]
+	(No symbol) [0x0x7ff607891791]
+	(No symbol) [0x0x7ff607892523]
+	GetHandleVerifier [0x0x7ff607d6684d+3059501]
+	GetHandleVerifier [0x0x7ff607d60c0d+3035885]
+	GetHandleVerifier [0x0x7ff607d80400+3164896]
+	GetHandleVerifier [0x0x7ff607aa8c3e+185118]
+	GetHandleVerifier [0x0x7ff607ab054f+216111]
+	GetHandleVerifier [0x0x7ff607a972e4+113092]
+	GetHandleVerifier [0x0x7ff607a97499+113529]
+	GetHandleVerifier [0x0x7ff607a7e298+10616]
+	BaseThreadInitThunk [0x0x7ffd29ace8d7+23]
+	RtlUserThreadStart [0x0x7ffd2aa9c34c+44]
+
