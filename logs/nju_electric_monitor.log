@@ -16420,3 +16420,12 @@ Stacktrace:
 2025-09-19 12:03:51,394 - INFO - 数据已保存: 55.12 度
 2025-09-19 12:03:51,632 - INFO - 电费变化曲线图已保存到: D:\Documents\Github\nju_electric_monitor\src\..\data\electricity_trend.png
 2025-09-19 12:03:51,632 - INFO - 监控流程完成
+2025-09-19 15:02:59,617 - INFO - 使用本地ChromeDriver: D:\Documents\Github\nju_electric_monitor\src\..\chromedriver-win64\chromedriver.exe
+2025-09-19 15:02:59,618 - WARNING - Using CPU. Note: This module is much faster with a GPU.
+2025-09-19 15:03:00,707 - INFO - OCR识别器初始化成功
+2025-09-19 15:03:00,708 - INFO - 开始南京大学电费监控流程（自动无头模式）
+2025-09-19 15:03:00,708 - INFO - 已获取登录凭据
+2025-09-19 15:03:00,708 - INFO - 正在打开页面: https://epay.nju.edu.cn/epay/h5/nju/electric/index
+2025-09-19 15:03:03,767 - INFO - 等待登录表单加载...
+2025-09-19 15:03:23,949 - WARNING - 登录表单加载超时
+2025-09-19 15:03:23,949 - ERROR - 登录表单加载失败
