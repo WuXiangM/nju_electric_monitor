@@ -1,0 +1,265 @@
+Wrapper start: 2026-07-28T11:55:11.197246+08:00
+
+=== ENVIRONMENT SUMMARY ===
+Environment variable keys (count=130):
+- ACCEPT_EULA
+- ACTIONS_ORCHESTRATION_ID
+- ACTIONS_RUNNER_ACTION_ARCHIVE_CACHE
+- ACTIONS_RUNNER_RETURN_JOB_RESULT_FOR_HOSTED
+- AGENT_TOOLSDIRECTORY
+- ANDROID_HOME
+- ANDROID_NDK
+- ANDROID_NDK_HOME
+- ANDROID_NDK_LATEST_HOME
+- ANDROID_NDK_ROOT
+NJU_USERNAME set: yes
+NJU_PASSWORD set: yes
+
+=== DISK USAGE (df -h) ===
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/root       145G   60G   85G  42% /
+tmpfs           7.9G   84K  7.9G   1% /dev/shm
+tmpfs           3.2G  2.5M  3.2G   1% /run
+tmpfs           5.0M     0  5.0M   0% /run/lock
+efivarfs        128M   32K  128M   1% /sys/firmware/efi/efivars
+/dev/sda16      881M   64M  756M   8% /boot
+/dev/sda15      105M  6.2M   99M   6% /boot/efi
+tmpfs           1.6G   12K  1.6G   1% /run/user/1001
+
+
+=== KEY DIR SIZES ===
+38M	/home/runner/work/nju_electric_monitor/nju_electric_monitor/src/../logs
+
+396K	/home/runner/work/nju_electric_monitor/nju_electric_monitor/src/../data
+
+101M	/home/runner/work/nju_electric_monitor/nju_electric_monitor/src/../models
+
+
+=== CONFIG_WORKFLOW SUMMARY ===
+{
+  "username": "",
+  "password": "",
+  "auto_login": true,
+  "headless_mode": true,
+  "captcha_retry_count": 4,
+  "save_captcha_images": true,
+  "log_level": "INFO",
+  "test_mode": false,
+  "enable_email_alert": true,
+  "alert_threshold_warn": 15,
+  "alert_threshold_high": 10,
+  "alert_threshold_critical": 5
+}
+
+=== FONT DIAGNOSTICS ===
+Found system fonts (ttf) count: 53
+- /usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf
+- /usr/share/fonts/truetype/lato/Lato-BlackItalic.ttf
+- /usr/share/fonts/truetype/dejavu/DejaVuSansCondensed-BoldOblique.ttf
+- /usr/share/fonts/truetype/lato/Lato-SemiboldItalic.ttf
+- /usr/share/fonts/truetype/liberation/LiberationSerif-BoldItalic.ttf
+- /usr/share/fonts/truetype/lato/Lato-Semibold.ttf
+- /usr/share/fonts/truetype/dejavu/DejaVuSansCondensed.ttf
+- /usr/share/fonts/truetype/liberation/LiberationSerif-Italic.ttf
+- /usr/share/fonts/truetype/lato/Lato-Thin.ttf
+- /usr/share/fonts/truetype/dejavu/DejaVuSerif-Italic.ttf
+- /usr/share/fonts/truetype/dejavu/DejaVuSans-ExtraLight.ttf
+- /usr/share/fonts/truetype/liberation/LiberationMono-Bold.ttf
+- /usr/share/fonts/truetype/liberation/LiberationSerif-Bold.ttf
+- /usr/share/fonts/truetype/dejavu/DejaVuSansMono-BoldOblique.ttf
+- /usr/share/fonts/truetype/dejavu/DejaVuSansMono-Bold.ttf
+- /usr/share/fonts/truetype/liberation/LiberationSans-Italic.ttf
+- /usr/share/fonts/truetype/lato/Lato-Heavy.ttf
+- /usr/share/fonts/truetype/lato/Lato-Bold.ttf
+- /usr/share/fonts/truetype/liberation/LiberationSerif-Regular.ttf
+- /usr/share/fonts/truetype/dejavu/DejaVuSans.ttf
+- /usr/share/fonts/truetype/dejavu/DejaVuSansMono-Oblique.ttf
+- /usr/share/fonts/truetype/dejavu/DejaVuSansCondensed-Bold.ttf
+- /usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf
+- /usr/share/fonts/truetype/dejavu/DejaVuSerifCondensed-Italic.ttf
+- /usr/share/fonts/truetype/lato/Lato-ThinItalic.ttf
+- /usr/share/fonts/truetype/lato/Lato-Hairline.ttf
+- /usr/share/fonts/truetype/liberation/LiberationMono-BoldItalic.ttf
+- /usr/share/fonts/truetype/lato/Lato-HeavyItalic.ttf
+- /usr/share/fonts/truetype/dejavu/DejaVuMathTeXGyre.ttf
+- /usr/share/fonts/truetype/lato/Lato-LightItalic.ttf
+- /usr/share/fonts/truetype/lato/Lato-Medium.ttf
+- /usr/share/fonts/truetype/dejavu/DejaVuSans-BoldOblique.ttf
+- /usr/share/fonts/truetype/liberation/LiberationMono-Regular.ttf
+- /usr/share/fonts/truetype/liberation/LiberationMono-Italic.ttf
+- /usr/share/fonts/truetype/dejavu/DejaVuSerifCondensed.ttf
+- /usr/share/fonts/truetype/liberation/LiberationSans-BoldItalic.ttf
+- /usr/share/fonts/truetype/dejavu/DejaVuSansCondensed-Oblique.ttf
+- /usr/share/fonts/truetype/lato/Lato-Regular.ttf
+- /usr/share/fonts/truetype/lato/Lato-MediumItalic.ttf
+- /usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf
+- /usr/share/fonts/truetype/lato/Lato-HairlineItalic.ttf
+- /usr/share/fonts/truetype/dejavu/DejaVuSerifCondensed-BoldItalic.ttf
+- /usr/share/fonts/truetype/noto/NotoColorEmoji.ttf
+- /usr/share/fonts/truetype/lato/Lato-Black.ttf
+- /usr/share/fonts/truetype/dejavu/DejaVuSans-Oblique.ttf
+- /usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf
+- /usr/share/fonts/truetype/lato/Lato-Italic.ttf
+- /usr/share/fonts/truetype/lato/Lato-BoldItalic.ttf
+- /usr/share/fonts/truetype/dejavu/DejaVuSerif-BoldItalic.ttf
+- /usr/share/fonts/truetype/dejavu/DejaVuSerifCondensed-Bold.ttf
+
+FontManager samples (name -> path):
+STIXSizeFourSym -> /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFourSymReg.ttf
+DejaVu Serif -> /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-Italic.ttf
+cmmi10 -> /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/cmmi10.ttf
+DejaVu Serif -> /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-BoldItalic.ttf
+cmex10 -> /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/cmex10.ttf
+cmtt10 -> /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/cmtt10.ttf
+STIXSizeThreeSym -> /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizThreeSymBol.ttf
+STIXGeneral -> /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralBolIta.ttf
+DejaVu Sans Mono -> /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-Bold.ttf
+STIXGeneral -> /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneral.ttf
+cmti10 -> /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/cmti10.ttf
+DejaVu Serif -> /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif.ttf
+DejaVu Serif Display -> /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerifDisplay.ttf
+DejaVu Sans Mono -> /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono.ttf
+STIXSizeThreeSym -> /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizThreeSymReg.ttf
+STIXSizeFourSym -> /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFourSymBol.ttf
+cmr10 -> /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/cmr10.ttf
+cmsy10 -> /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/cmsy10.ttf
+STIXNonUnicode -> /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniIta.ttf
+cmb10 -> /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/cmb10.ttf
+STIXNonUnicode -> /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniBol.ttf
+STIXGeneral -> /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralItalic.ttf
+DejaVu Sans Display -> /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansDisplay.ttf
+Last Resort High-Efficiency -> /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/LastResortHE-Regular.ttf
+DejaVu Sans -> /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Bold.ttf
+STIXSizeFiveSym -> /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFiveSymReg.ttf
+STIXNonUnicode -> /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUni.ttf
+DejaVu Sans -> /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans.ttf
+STIXSizeTwoSym -> /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizTwoSymReg.ttf
+cmss10 -> /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/cmss10.ttf
+STIXSizeTwoSym -> /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizTwoSymBol.ttf
+STIXGeneral -> /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralBol.ttf
+DejaVu Sans -> /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf
+DejaVu Sans Mono -> /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-BoldOblique.ttf
+DejaVu Sans -> /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-BoldOblique.ttf
+STIXSizeOneSym -> /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizOneSymBol.ttf
+DejaVu Sans Mono -> /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-Oblique.ttf
+STIXNonUnicode -> /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniBolIta.ttf
+STIXSizeOneSym -> /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizOneSymReg.ttf
+DejaVu Serif -> /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-Bold.ttf
+Liberation Sans -> /usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf
+Lato -> /usr/share/fonts/truetype/lato/Lato-BlackItalic.ttf
+Lato Black -> /usr/share/fonts/truetype/lato/Lato-BlackItalic.ttf
+DejaVu Sans -> /usr/share/fonts/truetype/dejavu/DejaVuSansCondensed-BoldOblique.ttf
+DejaVu Sans Condensed -> /usr/share/fonts/truetype/dejavu/DejaVuSansCondensed-BoldOblique.ttf
+Lato -> /usr/share/fonts/truetype/lato/Lato-SemiboldItalic.ttf
+Lato Semibold -> /usr/share/fonts/truetype/lato/Lato-SemiboldItalic.ttf
+Liberation Serif -> /usr/share/fonts/truetype/liberation/LiberationSerif-BoldItalic.ttf
+Lato -> /usr/share/fonts/truetype/lato/Lato-Semibold.ttf
+Lato Semibold -> /usr/share/fonts/truetype/lato/Lato-Semibold.ttf
+
+Preferred font find results:
+findfont('Microsoft YaHei') failed: Failed to find font Microsoft YaHei:style=normal:variant=normal:weight=normal:stretch=normal:size=10.0, and fallback to the default font was disabled
+findfont('Segoe UI') failed: Failed to find font Segoe UI:style=normal:variant=normal:weight=normal:stretch=normal:size=10.0, and fallback to the default font was disabled
+findfont('Arial Unicode MS') failed: Failed to find font Arial Unicode MS:style=normal:variant=normal:weight=normal:stretch=normal:size=10.0, and fallback to the default font was disabled
+findfont('Noto Sans CJK SC') failed: Failed to find font Noto Sans CJK SC:style=normal:variant=normal:weight=normal:stretch=normal:size=10.0, and fallback to the default font was disabled
+findfont('WenQuanYi Micro Hei') failed: Failed to find font WenQuanYi Micro Hei:style=normal:variant=normal:weight=normal:stretch=normal:size=10.0, and fallback to the default font was disabled
+findfont('WenQuanYi Zen Hei') failed: Failed to find font WenQuanYi Zen Hei:style=normal:variant=normal:weight=normal:stretch=normal:size=10.0, and fallback to the default font was disabled
+findfont('DejaVu Sans') -> /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans.ttf
+
+fc-list output sample (truncated to 10000 chars):
+Liberation Mono - /usr/share/fonts/truetype/liberation/LiberationMono-Bold.ttf
+Liberation Serif - /usr/share/fonts/truetype/liberation/LiberationSerif-BoldItalic.ttf
+Lato,Lato Hairline - /usr/share/fonts/truetype/lato/Lato-Hairline.ttf
+Lato,Lato Heavy - /usr/share/fonts/truetype/lato/Lato-Heavy.ttf
+DejaVu Serif,DejaVu Serif Condensed - /usr/share/fonts/truetype/dejavu/DejaVuSerifCondensed-Italic.ttf
+Lato,Lato Medium - /usr/share/fonts/truetype/lato/Lato-Medium.ttf
+Lato,Lato Light - /usr/share/fonts/truetype/lato/Lato-LightItalic.ttf
+DejaVu Serif - /usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf
+DejaVu Math TeX Gyre - /usr/share/fonts/truetype/dejavu/DejaVuMathTeXGyre.ttf
+Liberation Sans - /usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf
+Lato - /usr/share/fonts/truetype/lato/Lato-Italic.ttf
+Liberation Sans - /usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf
+Liberation Mono - /usr/share/fonts/truetype/liberation/LiberationMono-Italic.ttf
+DejaVu Sans,DejaVu Sans Condensed - /usr/share/fonts/truetype/dejavu/DejaVuSansCondensed.ttf
+DejaVu Serif,DejaVu Serif Condensed - /usr/share/fonts/truetype/dejavu/DejaVuSerifCondensed.ttf
+Liberation Serif - /usr/share/fonts/truetype/liberation/LiberationSerif-Italic.ttf
+Lato,Lato Heavy - /usr/share/fonts/truetype/lato/Lato-HeavyItalic.ttf
+Lato - /usr/share/fonts/truetype/lato/Lato-BoldItalic.ttf
+Lato,Lato Medium - /usr/share/fonts/truetype/lato/Lato-MediumItalic.ttf
+DejaVu Serif - /usr/share/fonts/truetype/dejavu/DejaVuSerif-Italic.ttf
+DejaVu Sans - /usr/share/fonts/truetype/dejavu/DejaVuSans.ttf
+Lato,Lato Semibold - /usr/share/fonts/truetype/lato/Lato-SemiboldItalic.ttf
+Lato,Lato Thin - /usr/share/fonts/truetype/lato/Lato-ThinItalic.ttf
+DejaVu Sans,DejaVu Sans Condensed - /usr/share/fonts/truetype/dejavu/DejaVuSansCondensed-BoldOblique.ttf
+Liberation Sans - /usr/share/fonts/truetype/liberation/LiberationSans-Italic.ttf
+Lato,Lato Black - /usr/share/fonts/truetype/lato/Lato-BlackItalic.ttf
+Lato,Lato Thin - /usr/share/fonts/truetype/lato/Lato-Thin.ttf
+DejaVu Sans,DejaVu Sans Condensed - /usr/share/fonts/truetype/dejavu/DejaVuSansCondensed-Oblique.ttf
+Lato,Lato Light - /usr/share/fonts/truetype/lato/Lato-Light.ttf
+DejaVu Sans,DejaVu Sans Condensed - /usr/share/fonts/truetype/dejavu/DejaVuSansCondensed-Bold.ttf
+DejaVu Sans Mono - /usr/share/fonts/truetype/dejavu/DejaVuSansMono-Oblique.ttf
+Lato,Lato Hairline - /usr/share/fonts/truetype/lato/Lato-HairlineItalic.ttf
+Lato,Lato Black - /usr/share/fonts/truetype/lato/Lato-Black.ttf
+Lato - /usr/share/fonts/truetype/lato/Lato-Regular.ttf
+DejaVu Sans - /usr/share/fonts/truetype/dejavu/DejaVuSans-BoldOblique.ttf
+Liberation Mono - /usr/share/fonts/truetype/liberation/LiberationMono-BoldItalic.ttf
+Liberation Mono - /usr/share/fonts/truetype/liberation/LiberationMono-Regular.ttf
+DejaVu Sans,DejaVu Sans Light - /usr/share/fonts/truetype/dejavu/DejaVuSans-ExtraLight.ttf
+DejaVu Serif - /usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf
+Lato - /usr/share/fonts/truetype/lato/Lato-Bold.ttf
+DejaVu Sans Mono - /usr/share/fonts/truetype/dejavu/DejaVuSansMono-Bold.ttf
+DejaVu Serif - /usr/share/fonts/truetype/dejavu/DejaVuSerif-BoldItalic.ttf
+DejaVu Sans Mono - /usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf
+Noto Color Emoji - /usr/share/fonts/truetype/noto/NotoColorEmoji.ttf
+DejaVu Sans Mono - /usr/share/fonts/truetype/dejavu/DejaVuSansMono-BoldOblique.ttf
+Liberation Sans - /usr/share/fonts/truetype/liberation/LiberationSans-BoldItalic.ttf
+Liberation Serif - /usr/share/fonts/truetype/liberation/LiberationSerif-Regular.ttf
+Lato,Lato Semibold - /usr/share/fonts/truetype/lato/Lato-Semibold.ttf
+DejaVu Sans - /usr/share/fonts/truetype/dejavu/DejaVuSans-Oblique.ttf
+DejaVu Serif,DejaVu Serif Condensed - /usr/share/fonts/truetype/dejavu/DejaVuSerifCondensed-Bold.ttf
+DejaVu Sans - /usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf
+Liberation Serif - /usr/share/fonts/truetype/liberation/LiberationSerif-Bold.ttf
+DejaVu Serif,DejaVu Serif Condensed - /usr/share/fonts/truetype/dejavu/DejaVuSerifCondensed-BoldItalic.ttf
+
+Running workflow script: /home/runner/work/nju_electric_monitor/nju_electric_monitor/src/nju_electric_monitor_workflow.py
+[0;93m2026-07-28 03:55:11.947777141 [W:onnxruntime:Default, device_discovery.cc:134 GetPciBusId] Skipping pci_bus_id for PCI path at "/sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0004:00/MSFT1000:00/5620e0c7-8062-4dce-aeb7-520c7ef76171" because filename "5620e0c7-8062-4dce-aeb7-520c7ef76171" did not match expected pattern of [0-9a-f]+:[0-9a-f]+:[0-9a-f]+[.][0-9a-f]+[m
+2026-07-28 03:55:12,656 - INFO - Matplotlib 字体设置：使用回退字体列表，首选可用字体: DejaVu Sans
+2026-07-28 03:55:13,159 - WARNING - 使用指定 ChromeDriver 失败 (/usr/bin/chromedriver): Message: Service /usr/bin/chromedriver unexpectedly exited. Status code was: 3
+，尝试使用 Selenium Manager 自动管理驱动
+2026-07-28 03:55:21,363 - INFO - 已切换为 Selenium Manager 自动管理的 ChromeDriver
+2026-07-28 03:55:21,429 - INFO - ddddocr 识别器初始化成功
+2026-07-28 03:55:21,429 - INFO - 开始南京大学电费监控流程（自动无头模式）
+2026-07-28 03:55:21,430 - INFO - 已初始化并清空验证码图片目录: /home/runner/work/nju_electric_monitor/nju_electric_monitor/src/../data/captcha_workflow
+2026-07-28 03:55:21,430 - INFO - 正在打开页面: https://epay.nju.edu.cn/epay/h5/nju/electric/index
+2026-07-28 03:55:29,469 - INFO - 等待登录表单加载...
+2026-07-28 03:55:29,534 - INFO - 登录表单已加载
+2026-07-28 03:55:29,534 - INFO - 开始填写登录表单...
+2026-07-28 03:55:29,716 - INFO - 用户名填写完成
+2026-07-28 03:55:29,808 - INFO - 密码填写完成
+2026-07-28 03:55:29,809 - INFO - 开始处理验证码（两层嵌套重试）...
+2026-07-28 03:55:29,809 - INFO - 外层页面重试 1/4
+2026-07-28 03:55:29,809 - INFO - 等待登录表单加载...
+2026-07-28 03:55:29,825 - INFO - 登录表单已加载
+2026-07-28 03:55:29,825 - INFO - 开始填写登录表单...
+2026-07-28 03:55:29,894 - INFO - 用户名填写完成
+2026-07-28 03:55:29,962 - INFO - 密码填写完成
+2026-07-28 03:55:30,962 - INFO - 查找验证码图片...
+2026-07-28 03:55:30,983 - WARNING - 验证码图片不可见
+2026-07-28 03:55:30,983 - INFO - 未检测到验证码图片，可能无需验证码，直接尝试点击登录按钮
+2026-07-28 03:55:30,983 - INFO - 查找并点击登录按钮...
+2026-07-28 03:55:31,005 - INFO - 通过 ID=login_submit 找到登录按钮
+2026-07-28 03:55:31,069 - INFO - 已点击登录按钮
+2026-07-28 03:55:36,070 - INFO - 等待登录成功...
+2026-07-28 03:55:36,081 - INFO - 检测到已跳转到电费页面: https://authserver.nju.edu.cn/authserver/login?service=https%3A%2F%2Fepay.nju.edu.cn%3A443%2Fepay%2Fh5%2Fnju%2Felectric%2Findex
+2026-07-28 03:55:36,081 - INFO - 查找'去充值'按钮...
+2026-07-28 03:55:36,134 - WARNING - 通过 CSS 选择器未找到'去充值'按钮 div.footer
+2026-07-28 03:55:36,134 - ERROR - 未找到可点击的'去充值'按钮
+2026-07-28 03:55:36,134 - WARNING - 点击充值按钮失败，尝试直接提取数据
+2026-07-28 03:55:36,135 - INFO - 开始提取剩余电量信息...
+2026-07-28 03:55:36,144 - WARNING - 未找到电量信息元素，尝试其他方法...
+2026-07-28 03:55:36,154 - WARNING - 未找到i标签中的电量信息，尝试其他方法...
+2026-07-28 03:55:36,170 - INFO - 在页面源码中查找电量信息...
+2026-07-28 03:55:36,183 - WARNING - 未能提取到剩余电量信息
+2026-07-28 03:55:36,183 - ERROR - 提取剩余电量失败，认为本次监控流程未成功，将交由上层重试
+监控流程失败，未能成功获取电量数据
+Workflow script exited with code 1
+Wrapper end: 2026-07-28T11:55:36.396578+08:00
