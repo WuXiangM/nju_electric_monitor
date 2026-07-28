@@ -18,9 +18,11 @@ import time
 import re
 import json
 import os
+import random
 from datetime import datetime
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
@@ -65,6 +67,7 @@ class NJUElectricMonitor:
         self.driver = None
         self.wait = None
         self.ocr_reader = None
+        self.slider_model = None
         # 本地 auto 版专用验证码图片目录（在 run() 中初始化与清空）
         self.qr_pics_dir = None
         # 测试模式：仅在需要深入排查时开启，用于保存页面快照
@@ -78,6 +81,7 @@ class NJUElectricMonitor:
         
         self.setup_driver()
         self.setup_ocr()
+        self.setup_slider_model()
 
     def init_qr_pics_dir(self):
         """初始化并清空本地 auto 运行使用的验证码图片目录 data/captcha_auto"""
@@ -231,6 +235,16 @@ class NJUElectricMonitor:
         except Exception as e:
             self.logger.error(f"ddddocr 识别器初始化失败: {e}")
             raise
+
+    def setup_slider_model(self):
+        """设置滑块缺口识别模型（captcha-recognizer）"""
+        try:
+            from captcha_recognizer.slider import Slider
+            self.slider_model = Slider()
+            self.logger.info("captcha-recognizer 滑块识别模型初始化成功")
+        except Exception as e:
+            self.logger.warning(f"captcha-recognizer 滑块识别模型初始化失败（滑块验证不可用）: {e}")
+            self.slider_model = None
     
     def get_user_credentials(self):
         """获取用户登录凭据"""
@@ -567,10 +581,310 @@ class NJUElectricMonitor:
             self.logger.error(f"填写验证码时出错: {e}")
             return False
     
-    def handle_captcha(self):
-        """处理验证码（两层嵌套重试：页面刷新 + 同图多次 OCR）"""
+    def detect_verification_type(self):
+        """
+        检测当前页面的验证方式类型。
+        返回: 'captcha' (传统验证码), 'slider' (滑块验证), 'none' (无需验证)
+        """
+        # 1. 检查是否有传统验证码图片
         try:
-            self.logger.info("开始处理验证码（两层嵌套重试）...")
+            captcha_elem = self.driver.find_element(By.ID, "captchaImg")
+            if captcha_elem.is_displayed():
+                self.logger.info("检测到传统验证码（captchaImg）")
+                return 'captcha'
+        except NoSuchElementException:
+            pass
+
+        # 2. 检查是否有滑块验证
+        try:
+            slider_div = self.driver.find_element(By.ID, "sliderDiv")
+            if slider_div.is_displayed():
+                self.logger.info("检测到滑块验证（sliderDiv）")
+                return 'slider'
+        except NoSuchElementException:
+            pass
+
+        # 3. 检查是否有滑块容器（点击登录后才出现的滑块）
+        try:
+            slider_container = self.driver.find_element(By.CSS_SELECTOR, ".sliderContainer")
+            if slider_container.is_displayed():
+                self.logger.info("检测到滑块验证容器（sliderContainer）")
+                return 'slider'
+        except NoSuchElementException:
+            pass
+
+        self.logger.info("未检测到任何验证方式")
+        return 'none'
+
+    def capture_slider_canvas(self):
+        """截取滑块验证的 canvas 图片，返回 (img, dom_width, dom_height)"""
+        try:
+            canvas = self.driver.find_element(By.CSS_SELECTOR, "canvas.block")
+            if canvas.is_displayed():
+                img_bytes = canvas.screenshot_as_png
+                img = Image.open(io.BytesIO(img_bytes))
+                dom_width = int(canvas.get_attribute("width") or 0)
+                dom_height = int(canvas.get_attribute("height") or 0)
+                return img, dom_width, dom_height
+        except Exception as e:
+            self.logger.error(f"截取滑块 canvas 失败: {e}")
+        return None, 0, 0
+
+    def detect_slider_gap(self, img, dom_width):
+        """
+        用 captcha-recognizer 检测滑块缺口位置。
+        关键：将截图坐标换算为 DOM 坐标（screenshot_as_png 可能放大 1.5 倍）。
+        返回缺口左边缘的 DOM 坐标（拖拽偏移量），失败返回 None。
+        """
+        if not self.slider_model:
+            self.logger.error("滑块识别模型未初始化")
+            return None
+
+        try:
+            # 保存临时文件供模型识别
+            tmp_dir = os.path.join(os.path.dirname(__file__), '..', 'data')
+            os.makedirs(tmp_dir, exist_ok=True)
+            tmp_path = os.path.join(tmp_dir, 'slider_temp_canvas.png')
+            img.save(tmp_path)
+
+            box, confidence = self.slider_model.identify(tmp_path)
+
+            screenshot_w = img.size[0]
+
+            # 计算缩放比例并换算为 DOM 坐标
+            if dom_width > 0:
+                scale_x = screenshot_w / dom_width
+            else:
+                scale_x = 1.0
+
+            gap_x = box[0] / scale_x
+
+            self.logger.info(
+                f"滑块缺口 box=[{box[0]:.0f},{box[1]:.0f},{box[2]:.0f},{box[3]:.0f}], "
+                f"confidence={confidence:.3f}, 截图={screenshot_w}px, DOM={dom_width}px, "
+                f"缩放={scale_x:.2f}x, 拖拽偏移={gap_x:.0f}px"
+            )
+            return gap_x
+        except Exception as e:
+            self.logger.error(f"滑块缺口检测失败: {e}")
+            return None
+
+    def generate_slider_track(self, distance):
+        """
+        生成人类拖拽轨迹：加速-减速两段式物理模型。
+        返回步长列表（整数），总距离精确等于 distance。
+        """
+        distance = int(round(distance))
+        if distance <= 0:
+            return []
+
+        track = []
+        current = 0
+        mid = distance * 4 / 5
+        t = 0.2
+        v = 0
+
+        while current < distance:
+            if current < mid:
+                a = 2 + random.uniform(0.5, 1.5)
+            else:
+                a = -1.5 - random.uniform(0, 0.5)
+            v0 = v
+            v = v0 + a * t
+            if current > distance * 0.8:
+                v = max(v, 0.5)
+            move = v0 * t + 0.5 * a * t * t
+            move = max(move, 1)
+            current += move
+            track.append(round(move))
+
+        # 确保总距离精确
+        total = sum(track)
+        if total != distance:
+            track[-1] += (distance - total)
+
+        return track
+
+    def perform_slider_drag(self, offset_x, max_retries=2):
+        """
+        执行滑块拖拽，支持失败自动重试。
+        返回 True 表示验证通过，False 表示验证失败。
+        """
+        for attempt in range(1, max_retries + 1):
+            try:
+                self.logger.info(f"滑块拖拽尝试 {attempt}/{max_retries} (偏移={offset_x:.0f}px)")
+
+                # 定位滑块按钮
+                slider_btn = None
+                for selector in [".sliderContainer .slider", ".verify-move-block", ".slide-btn"]:
+                    try:
+                        btn = self.driver.find_element(By.CSS_SELECTOR, selector)
+                        if btn.is_displayed():
+                            slider_btn = btn
+                            break
+                    except NoSuchElementException:
+                        continue
+
+                if not slider_btn:
+                    self.logger.error("未找到滑块按钮")
+                    return False
+
+                # 生成轨迹并执行拖拽
+                track = self.generate_slider_track(offset_x)
+
+                actions = ActionChains(self.driver)
+                actions.click_and_hold(slider_btn).perform()
+                time.sleep(random.uniform(0.1, 0.2))
+
+                for step in track:
+                    actions.move_by_offset(step, 0).perform()
+                    time.sleep(random.uniform(0.01, 0.03))
+
+                time.sleep(0.1)
+                actions.release().perform()
+                time.sleep(2)
+
+                # 检查验证结果
+                # 成功标志：sliderDiv 消失 或 出现成功标记
+                try:
+                    slider_div = self.driver.find_element(By.ID, "sliderDiv")
+                    if not slider_div.is_displayed():
+                        self.logger.info("滑块验证通过（sliderDiv 已消失）")
+                        return True
+                except NoSuchElementException:
+                    self.logger.info("滑块验证通过（sliderDiv 元素不存在）")
+                    return True
+
+                for selector in ["[class*='success']", ".verify-success", ".sliderContainer.success"]:
+                    try:
+                        elem = self.driver.find_element(By.CSS_SELECTOR, selector)
+                        if elem.is_displayed():
+                            self.logger.info("滑块验证通过（检测到成功标记）")
+                            return True
+                    except NoSuchElementException:
+                        pass
+
+                self.logger.warning(f"滑块拖拽第 {attempt} 次未通过验证")
+
+            except Exception as e:
+                self.logger.error(f"滑块拖拽第 {attempt} 次出错: {e}")
+
+            # 重试前等待
+            if attempt < max_retries:
+                time.sleep(1)
+
+        self.logger.error(f"滑块验证 {max_retries} 次尝试均失败")
+        return False
+
+    def handle_slider_verification(self, max_rounds=3):
+        """
+        处理滑块验证：点击登录 → 等待滑块出现 → 多轮重试（检测缺口 → 拖拽）。
+        每轮重试会重新截取canvas、重新检测缺口、重新拖拽。
+        返回 True 表示验证通过，False 表示验证失败。
+        """
+        try:
+            self.logger.info("开始处理滑块验证...")
+
+            # 先点击登录按钮触发滑块验证
+            if not self.click_login_button():
+                self.logger.error("点击登录按钮触发滑块失败")
+                return False
+
+            # 等待滑块验证出现（最多 5 秒）
+            slider_appeared = False
+            for _ in range(10):
+                time.sleep(0.5)
+                try:
+                    slider_div = self.driver.find_element(By.ID, "sliderDiv")
+                    if slider_div.is_displayed():
+                        slider_appeared = True
+                        break
+                except NoSuchElementException:
+                    pass
+                try:
+                    slider_container = self.driver.find_element(By.CSS_SELECTOR, ".sliderContainer")
+                    if slider_container.is_displayed():
+                        slider_appeared = True
+                        break
+                except NoSuchElementException:
+                    pass
+
+            if not slider_appeared:
+                self.logger.warning("未检测到滑块验证弹出，可能无需验证")
+                return True
+
+            time.sleep(1)
+
+            # 多轮重试：每轮重新截取canvas、检测缺口、拖拽
+            for round_num in range(1, max_rounds + 1):
+                self.logger.info(f"滑块验证第 {round_num}/{max_rounds} 轮尝试")
+
+                # 截取 canvas 并检测缺口
+                img, dom_width, dom_height = self.capture_slider_canvas()
+                if not img:
+                    self.logger.warning(f"第 {round_num} 轮未能截取滑块 canvas")
+                    if round_num < max_rounds:
+                        time.sleep(1)
+                        continue
+                    else:
+                        self.logger.error("滑块验证所有轮次均未能截取 canvas")
+                        return False
+
+                offset_x = self.detect_slider_gap(img, dom_width)
+                if offset_x is None:
+                    self.logger.warning(f"第 {round_num} 轮滑块缺口检测失败")
+                    if round_num < max_rounds:
+                        time.sleep(1)
+                        continue
+                    else:
+                        self.logger.error("滑块验证所有轮次均缺口检测失败")
+                        return False
+
+                # 执行拖拽（带自动重试）
+                if self.perform_slider_drag(offset_x):
+                    self.logger.info(f"滑块验证第 {round_num} 轮成功")
+                    return True
+                else:
+                    self.logger.warning(f"第 {round_num} 轮滑块拖拽失败")
+                    if round_num < max_rounds:
+                        time.sleep(1)
+                        continue
+
+            self.logger.error(f"滑块验证 {max_rounds} 轮尝试均失败")
+            return False
+
+        except Exception as e:
+            self.logger.error(f"处理滑块验证时出错: {e}")
+            return False
+
+    def handle_captcha(self):
+        """
+        统一验证处理入口：先判断验证方式，再分发到对应处理器。
+        - 'captcha' → 传统验证码 OCR 识别
+        - 'slider'  → 滑块验证（点击登录后触发）
+        - 'none'    → 无需验证，直接尝试登录
+        """
+        # 先检测当前页面的验证方式
+        vtype = self.detect_verification_type()
+        self.logger.info(f"当前验证方式: {vtype}")
+
+        if vtype == 'slider':
+            # 滑块验证：点击登录后触发
+            return self.handle_slider_verification()
+
+        elif vtype == 'captcha':
+            # 传统验证码：走原有 OCR 流程
+            return self._handle_captcha_ocr()
+
+        else:
+            # 无需验证，直接尝试登录
+            self.logger.info("未检测到验证方式，直接尝试登录")
+            return self.click_login_button()
+
+    def _handle_captcha_ocr(self):
+        """处理传统验证码（两层嵌套重试：页面刷新 + 同图多次 OCR）"""
+        try:
+            self.logger.info("开始处理传统验证码（两层嵌套重试）...")
             outer_max = max(1, int(self.captcha_retry_count))
             inner_max = 3  # 同一验证码图片下的 OCR 尝试次数
             last_captcha_img = None
