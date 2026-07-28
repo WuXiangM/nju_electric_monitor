@@ -18,3 +18,4 @@ __pycache__/
 
 # 测试数据
 data\test_snapshots_auto\*
+tests/
