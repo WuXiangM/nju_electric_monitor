@@ -1015,9 +1015,33 @@ class NJUElectricMonitor:
             return False
 
     def handle_captcha(self):
-        """处理验证码（两层嵌套重试：页面刷新 + 同图多次 OCR）"""
+        """
+        统一验证处理入口：先判断验证方式，再分发到对应处理器。
+        - 'captcha' → 传统验证码 OCR 识别
+        - 'slider'  → 滑块验证（点击登录后触发）
+        - 'none'    → 无需验证，直接尝试登录
+        """
+        # 先检测当前页面的验证方式
+        vtype = self.detect_verification_type()
+        self.logger.info(f"当前验证方式: {vtype}")
+
+        if vtype == 'slider':
+            # 滑块验证：点击登录后触发
+            return self.handle_slider_verification()
+
+        elif vtype == 'captcha':
+            # 传统验证码：走原有 OCR 流程
+            return self._handle_captcha_ocr()
+
+        else:
+            # 无需验证，直接尝试登录
+            self.logger.info("未检测到验证方式，直接尝试登录")
+            return self.click_login_button()
+
+    def _handle_captcha_ocr(self):
+        """处理传统验证码（两层嵌套重试：页面刷新 + 同图多次 OCR）"""
         try:
-            self.logger.info("开始处理验证码（两层嵌套重试）...")
+            self.logger.info("开始处理传统验证码（两层嵌套重试）...")
             outer_max = max(1, int(self.captcha_retry_count))
             inner_max = 3  # 同一验证码图片下的 OCR 尝试次数
             last_captcha_img = None
