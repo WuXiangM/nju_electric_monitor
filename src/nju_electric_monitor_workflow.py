@@ -47,6 +47,9 @@ from email.header import Header
 from email import encoders
 
 import pandas as pd
+# 在导入 pyplot 之前设置 Agg 后端，避免字体问题和 GUI 依赖
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from matplotlib.ticker import MaxNLocator
@@ -318,17 +321,21 @@ class NJUElectricMonitor:
         优先尝试常见 Windows 字体，然后尝试在 Linux runner 常见的 Noto/WenQuanYi/DejaVu 系列。
         """
         try:
+            # 设置 matplotlib 使用非交互式后端，避免字体问题
+            import matplotlib
+            matplotlib.use('Agg', force=True)
+            
             # 优先级列表（按首选到次选）
             preferred_fonts = [
-                'Microsoft YaHei',
-                'Segoe UI',
-                'Arial Unicode MS',
                 'Noto Sans CJK SC',
-                'Noto Sans CJK JP',
-                'Noto Sans',
                 'WenQuanYi Micro Hei',
                 'WenQuanYi Zen Hei',
                 'DejaVu Sans',
+                'Microsoft YaHei',
+                'Segoe UI',
+                'Arial Unicode MS',
+                'Noto Sans CJK JP',
+                'Noto Sans',
                 'Arial'
             ]
 
@@ -336,6 +343,8 @@ class NJUElectricMonitor:
             try:
                 plt.rcParams['font.family'] = 'sans-serif'
                 plt.rcParams['font.sans-serif'] = preferred_fonts
+                # 禁用字体权重警告
+                plt.rcParams['font.weight'] = 'normal'
             except Exception:
                 # 如果 plt 不可用，跳过字体设置
                 self.logger.debug('plt 或 matplotlib 不可用，跳过字体设置')
@@ -344,7 +353,7 @@ class NJUElectricMonitor:
             available = None
             for fname in preferred_fonts:
                 try:
-                    fpath = fm.findfont(fname, fallback_to_default=False)
+                    fpath = fm.findfont(fname, fallback_to_default=True)
                     if fpath and os.path.exists(fpath):
                         available = fname
                         break
@@ -1322,23 +1331,23 @@ class NJUElectricMonitor:
                 # 自动检测当前系统可用字体，优先使用已安装的中文字体
                 import matplotlib.font_manager as fm
                 preferred_fonts = [
+                    'Noto Sans CJK SC',
+                    'WenQuanYi Micro Hei',
+                    'WenQuanYi Zen Hei',
+                    'DejaVu Sans',
                     'Microsoft YaHei',
                     'Segoe UI',
                     'Arial Unicode MS',
-                    'Noto Sans CJK SC',
                     'Noto Sans CJK JP',
                     'Noto Sans',
-                    'WenQuanYi Micro Hei',
-                    'WenQuanYi Zen Hei',
                     'SimHei',
                     'STHeiti',
                     'Heiti SC',
-                    'DejaVu Sans',
                     'Arial'
                 ]
                 for font in preferred_fonts:
                     try:
-                        fpath = fm.findfont(font, fallback_to_default=False)
+                        fpath = fm.findfont(font, fallback_to_default=True)
                         if fpath and os.path.exists(fpath):
                             ax.set_title(ax.get_title(), fontname=font)
                             ax.set_xlabel(ax.get_xlabel(), fontname=font)
