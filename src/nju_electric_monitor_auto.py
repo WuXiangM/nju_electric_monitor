@@ -217,14 +217,21 @@ class NJUElectricMonitor:
         try:
             chromedriver_path = os.path.join(os.path.dirname(__file__), '..', 'chromedriver-win64', 'chromedriver.exe')
             if not os.path.exists(chromedriver_path):
-                raise FileNotFoundError(f"本地ChromeDriver不存在: {chromedriver_path}，请确保chromedriver-win64目录存在并包含chromedriver.exe")
+                raise FileNotFoundError(f"本地ChromeDriver不存在: {chromedriver_path}")
             service = Service(chromedriver_path)
             self.driver = webdriver.Chrome(service=service, options=chrome_options)
             self.wait = WebDriverWait(self.driver, 20)
             self.logger.info(f"使用本地ChromeDriver: {chromedriver_path}")
         except Exception as e:
-            self.logger.error(f"浏览器驱动初始化失败: {e}")
-            raise
+            self.logger.warning(f"本地ChromeDriver初始化失败，尝试使用Selenium内置Manager自动下载: {e}")
+            try:
+                # Selenium 4.6+ 内置 Selenium Manager，自动下载匹配当前 Chrome 版本的 ChromeDriver
+                self.driver = webdriver.Chrome(options=chrome_options)
+                self.wait = WebDriverWait(self.driver, 20)
+                self.logger.info("使用 Selenium 内置 Manager 自动下载的 ChromeDriver")
+            except Exception as e2:
+                self.logger.error(f"ChromeDriver 自动下载最终失败: {e2}")
+                raise
     
     def setup_ocr(self):
         """设置OCR识别器（使用 ddddocr，免模型文件管理）"""
@@ -778,17 +785,13 @@ class NJUElectricMonitor:
 
     def handle_slider_verification(self, max_rounds=3):
         """
-        处理滑块验证：点击登录 → 等待滑块出现 → 多轮重试（检测缺口 → 拖拽）。
+        处理滑块验证：等待滑块出现 → 多轮重试（检测缺口 → 拖拽）。
+        注意：登录按钮已由 handle_captcha() 点击，此处不再重复点击。
         每轮重试会重新截取canvas、重新检测缺口、重新拖拽。
         返回 True 表示验证通过，False 表示验证失败。
         """
         try:
             self.logger.info("开始处理滑块验证...")
-
-            # 先点击登录按钮触发滑块验证
-            if not self.click_login_button():
-                self.logger.error("点击登录按钮触发滑块失败")
-                return False
 
             # 等待滑块验证出现（最多 5 秒）
             slider_appeared = False
@@ -859,27 +862,38 @@ class NJUElectricMonitor:
 
     def handle_captcha(self):
         """
-        统一验证处理入口：先判断验证方式，再分发到对应处理器。
-        - 'captcha' → 传统验证码 OCR 识别
-        - 'slider'  → 滑块验证（点击登录后触发）
-        - 'none'    → 无需验证，直接尝试登录
+        统一验证处理入口：
+        1. 先检测页面上是否有传统验证码（captchaImg）→ 有则走 OCR 流程
+        2. 没有传统验证码 → 点击登录按钮
+        3. 点击登录后检测是否弹出滑块验证 → 有则走滑块流程
+        4. 都没有 → 无需验证，直接等待登录成功
         """
-        # 先检测当前页面的验证方式
+        # 第一步：检测页面上是否有传统验证码（登录前可见）
         vtype = self.detect_verification_type()
-        self.logger.info(f"当前验证方式: {vtype}")
+        self.logger.info(f"登录前验证方式检测: {vtype}")
 
-        if vtype == 'slider':
-            # 滑块验证：点击登录后触发
-            return self.handle_slider_verification()
-
-        elif vtype == 'captcha':
+        if vtype == 'captcha':
             # 传统验证码：走原有 OCR 流程
             return self._handle_captcha_ocr()
 
-        else:
-            # 无需验证，直接尝试登录
-            self.logger.info("未检测到验证方式，直接尝试登录")
-            return self.click_login_button()
+        # 第二步：没有传统验证码，先点击登录按钮
+        self.logger.info("未检测到传统验证码，点击登录按钮...")
+        if not self.click_login_button():
+            self.logger.error("点击登录按钮失败")
+            return False
+
+        # 第三步：点击登录后等待 2 秒，再检测是否弹出滑块验证
+        time.sleep(2)
+        vtype_after = self.detect_verification_type()
+        self.logger.info(f"登录后验证方式检测: {vtype_after}")
+
+        if vtype_after == 'slider':
+            # 滑块验证弹出，处理滑块
+            return self.handle_slider_verification()
+
+        # 第四步：没有滑块，说明无需验证，等待登录成功
+        self.logger.info("未检测到滑块验证，等待登录成功...")
+        return self.wait_for_login_success()
 
     def _handle_captcha_ocr(self):
         """处理传统验证码（两层嵌套重试：页面刷新 + 同图多次 OCR）"""

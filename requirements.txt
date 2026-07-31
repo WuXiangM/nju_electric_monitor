@@ -8,4 +8,5 @@ pandas>=1.1.0
 matplotlib>=3.0.0
 plotly>=5.0.0
 ddddocr==1.4.11
+webdriver-manager>=4.0.0
 captcha-recognizer>=0.1.0
