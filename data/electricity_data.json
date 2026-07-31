@@ -867,4 +867,8 @@
 {"timestamp": "2026-07-20T17:50:25.900734", "remaining_electricity": 45.9, "unit": "度"}
 {"timestamp": "2026-07-20T23:04:14.534199", "remaining_electricity": 43.34, "unit": "度"}
 {"timestamp": "2026-07-21T12:11:01.624168", "remaining_electricity": 42.25, "unit": "度"}
+<<<<<<< HEAD
 {"timestamp": "2026-07-31T23:10:56.768746", "remaining_electricity": 33.27, "unit": "度"}
+=======
+{"timestamp": "2026-07-31T23:14:10.214161", "remaining_electricity": 33.27, "unit": "度"}
+>>>>>>> 01e3f0fd3001f61d4f738dea92aa5a76fd402e78
