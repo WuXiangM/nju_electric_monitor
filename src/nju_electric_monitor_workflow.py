@@ -935,17 +935,13 @@ class NJUElectricMonitor:
 
     def handle_slider_verification(self, max_rounds=3):
         """
-        处理滑块验证：点击登录 → 等待滑块出现 → 多轮重试（检测缺口 → 拖拽）。
+        处理滑块验证：等待滑块出现 → 多轮重试（检测缺口 → 拖拽）。
+        注意：登录按钮已由 handle_captcha() 点击，此处不再重复点击。
         每轮重试会重新截取canvas、重新检测缺口、重新拖拽。
         返回 True 表示验证通过，False 表示验证失败。
         """
         try:
             self.logger.info("开始处理滑块验证...")
-
-            # 先点击登录按钮触发滑块验证
-            if not self.click_login_button():
-                self.logger.error("点击登录按钮触发滑块失败")
-                return False
 
             # 等待滑块验证出现（最多 5 秒）
             slider_appeared = False
@@ -1016,27 +1012,38 @@ class NJUElectricMonitor:
 
     def handle_captcha(self):
         """
-        统一验证处理入口：先判断验证方式，再分发到对应处理器。
-        - 'captcha' → 传统验证码 OCR 识别
-        - 'slider'  → 滑块验证（点击登录后触发）
-        - 'none'    → 无需验证，直接尝试登录
+        统一验证处理入口：
+        1. 先检测页面上是否有传统验证码（captchaImg）→ 有则走 OCR 流程
+        2. 没有传统验证码 → 点击登录按钮
+        3. 点击登录后检测是否弹出滑块验证 → 有则走滑块流程
+        4. 都没有 → 无需验证，直接等待登录成功
         """
-        # 先检测当前页面的验证方式
+        # 第一步：检测页面上是否有传统验证码（登录前可见）
         vtype = self.detect_verification_type()
-        self.logger.info(f"当前验证方式: {vtype}")
+        self.logger.info(f"登录前验证方式检测: {vtype}")
 
-        if vtype == 'slider':
-            # 滑块验证：点击登录后触发
-            return self.handle_slider_verification()
-
-        elif vtype == 'captcha':
+        if vtype == 'captcha':
             # 传统验证码：走原有 OCR 流程
             return self._handle_captcha_ocr()
 
-        else:
-            # 无需验证，直接尝试登录
-            self.logger.info("未检测到验证方式，直接尝试登录")
-            return self.click_login_button()
+        # 第二步：没有传统验证码，先点击登录按钮
+        self.logger.info("未检测到传统验证码，点击登录按钮...")
+        if not self.click_login_button():
+            self.logger.error("点击登录按钮失败")
+            return False
+
+        # 第三步：点击登录后等待 2 秒，再检测是否弹出滑块验证
+        time.sleep(2)
+        vtype_after = self.detect_verification_type()
+        self.logger.info(f"登录后验证方式检测: {vtype_after}")
+
+        if vtype_after == 'slider':
+            # 滑块验证弹出，处理滑块
+            return self.handle_slider_verification()
+
+        # 第四步：没有滑块，说明无需验证，等待登录成功
+        self.logger.info("未检测到滑块验证，等待登录成功...")
+        return self.wait_for_login_success()
 
     def _handle_captcha_ocr(self):
         """处理传统验证码（两层嵌套重试：页面刷新 + 同图多次 OCR）"""
