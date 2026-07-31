@@ -415,7 +415,7 @@ time,num,unit
 
 #### 测试快照
 
-位置: `data/test_snapshots_auto/` 或 `data/test_snapshots_workflow/`
+位置: `data/test_snapshots-auto/` 或 `data/test_snapshots-workflow/`
 
 仅在 `test_mode=true` 时生成，包含：
 - 登录页加载后快照

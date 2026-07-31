@@ -1305,10 +1305,10 @@ class NJUElectricMonitor:
                         color=line_color, linewidth=2.5, marker='o', markersize=6,
                         markerfacecolor=marker_color, markeredgewidth=2, markeredgecolor=marker_color, zorder=3)
 
-                # 设置标题和标签
-                ax.set_title('电量变化曲线', fontsize=18, color=title_color, pad=18, fontweight='bold', fontname='Microsoft YaHei')
-                ax.set_xlabel('时间', fontsize=13, color=font_color, labelpad=10, fontname='Microsoft YaHei')
-                ax.set_ylabel('剩余电量 (度)', fontsize=13, color=font_color, labelpad=10, fontname='Microsoft YaHei')
+                # 设置标题和标签（不指定 fontname，使用 rcParams 中配置的字体）
+                ax.set_title('电量变化曲线', fontsize=18, color=title_color, pad=18, fontweight='bold')
+                ax.set_xlabel('时间', fontsize=13, color=font_color, labelpad=10)
+                ax.set_ylabel('剩余电量 (度)', fontsize=13, color=font_color, labelpad=10)
 
                 # 坐标轴刻度
                 ax.tick_params(axis='x', colors=font_color, labelsize=10, rotation=30)
@@ -1569,10 +1569,10 @@ class NJUElectricMonitor:
                     color=line_color, linewidth=2.5, marker='o', markersize=6,
                     markerfacecolor=marker_color, markeredgewidth=2, markeredgecolor=marker_color, zorder=3)
 
-            # 设置标题和标签
-            ax.set_title('最近20次电量变化曲线', fontsize=18, color=title_color, pad=18, fontweight='bold', fontname='Microsoft YaHei')
-            ax.set_xlabel('时间', fontsize=13, color=font_color, labelpad=10, fontname='Microsoft YaHei')
-            ax.set_ylabel('剩余电量 (度)', fontsize=13, color=font_color, labelpad=10, fontname='Microsoft YaHei')
+            # 设置标题和标签（不指定 fontname，使用 rcParams 中配置的字体）
+            ax.set_title('最近20次电量变化曲线', fontsize=18, color=title_color, pad=18, fontweight='bold')
+            ax.set_xlabel('时间', fontsize=13, color=font_color, labelpad=10)
+            ax.set_ylabel('剩余电量 (度)', fontsize=13, color=font_color, labelpad=10)
 
             # 坐标轴刻度
             ax.tick_params(axis='x', colors=font_color, labelsize=10, rotation=30)
