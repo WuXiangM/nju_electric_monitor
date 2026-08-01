@@ -11,13 +11,18 @@
 ## 🌟功能特性
 
 - 自动登录南京大学电费充值系统
-- 自动识别验证码（使用 ddddocr OCR）
+- **支持两种验证方式**：传统验证码（ddddocr OCR）和滑块验证（captcha-recognizer AI识别）
+- **自动检测验证方式**：智能识别当前页面是验证码还是滑块，自动切换处理流程
+- **多轮重试机制**：传统验证码（外层×内层）和滑块验证（完整流程重试）确保高成功率
+- **ChromeDriver 自动匹配**：本地版本不匹配时自动回退 Selenium Manager 下载
 - 提取剩余电量信息
 - 支持无头模式运行
 - 数据保存为JSON和CSV格式
 - 详细的日志记录
 - **可视化网页面板，支持交互式电量曲线与数据表格**
 - 一键批处理启动与网页自动打开
+
+> 📖 **完整使用指南**：请查看 [GUIDE.md](GUIDE.md)，包含详细的安装部署、配置说明、验证机制详解、故障排除和开发指南。
 
 ## 🤖Github Actions 自动运行
 
@@ -46,6 +51,8 @@ config_workflow.json 部分参数：
 - `alert_threshold_critical`: 紧急提醒阈值（单位：度，默认 5）
 
 ## 🖥️本地运行方法
+
+> 💡 **首次使用？** 建议先阅读 [完整使用指南 GUIDE.md](GUIDE.md)，包含详细的安装部署、配置说明和故障排除。
 
 Github Actions 中已支持电量预警邮件：当剩余电量低于配置的阈值时，会自动发送带有近期电费曲线图的提醒邮件。
 
@@ -216,7 +223,8 @@ python src/web_panel.py
 
 1. `chromedriver-win64/chromedriver.exe` 文件是否存在
 2. ChromeDriver版本是否与Chrome浏览器版本匹配
-3. 文件权限是否正确
+3. **脚本已内置自动回退**：本地版本不匹配时，会自动使用 Selenium Manager 下载匹配版本
+4. 如需手动更新，下载对应版本: https://chromedriver.chromium.org/downloads
 
 ### OCR识别问题
 
@@ -227,6 +235,15 @@ python src/web_panel.py
 3. 尝试手动输入验证码
 4. 运行 `python tests/test_captcha_recognition.py` 测试识别效果
 5. 适当调大 `captcha_retry_count` 或查看 `data/captcha_auto` / `data/captcha_workflow` 中的验证码截图，人工比对识别结果
+
+### 滑块验证问题
+
+如果滑块验证失败：
+
+1. 确保 captcha-recognizer 已安装（`pip install -r requirements.txt`）
+2. 运行滑块验证测试：`python tests/test_verification_flow.py`
+3. 滑块验证已内置多轮重试（默认3轮），单次失败会自动重新截取、识别、拖拽
+4. 查看日志中 `滑块缺口 box=` 信息，确认缺口检测是否准确
 
 ### 电量信息提取问题
 

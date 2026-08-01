@@ -78,7 +78,7 @@ nju_electric_monitor/
 
 - **Python**: 3.9+ (推荐 3.11)
 - **Chrome浏览器**: 最新稳定版
-- **ChromeDriver**: 与Chrome版本匹配（已包含在项目中）
+- **ChromeDriver**: 与Chrome版本匹配（已包含在项目中，版本不匹配时自动回退 Selenium Manager 下载）
 - **操作系统**: Windows 10/11, Linux, macOS
 
 ### 安装步骤
@@ -112,6 +112,7 @@ pip install -r requirements.txt
 - `selenium==4.15.2`: 浏览器自动化
 - `ddddocr==1.4.11`: 传统验证码OCR识别
 - `captcha-recognizer>=0.1.0`: 滑块验证AI识别
+- `webdriver-manager>=4.0.0`: ChromeDriver 自动下载管理
 - `Pillow>=10.0.0`: 图像处理
 - `pandas>=1.1.0`: 数据处理
 - `matplotlib>=3.0.0`: 数据可视化
@@ -282,13 +283,14 @@ python src/web_panel.py
 ```
 1. 打开登录页面
 2. 填写用户名和密码
-3. 点击登录按钮
-4. 等待验证元素出现（2秒）
-5. 检测验证类型：
-   - 检查 captchaImg 元素 → 传统验证码
+3. 登录前检测：检查 captchaImg 元素
+   - 检测到 → 传统验证码，走 OCR 流程
+   - 未检测到 → 继续下一步
+4. 点击登录按钮
+5. 等待 2 秒，再次检测验证类型：
    - 检查 sliderDiv 元素 → 滑块验证
    - 检查 .sliderContainer 元素 → 滑块验证
-   - 都未检测到 → 无需验证
+   - 都未检测到 → 无需验证，等待登录成功
 6. 根据验证类型执行对应处理
 ```
 
@@ -437,8 +439,8 @@ SessionNotCreatedException: This version of ChromeDriver only supports Chrome ve
 ```
 
 **解决方案**:
-1. 查看Chrome浏览器版本（设置→关于Chrome）
-2. 下载对应版本的ChromeDriver: https://chromedriver.chromium.org/downloads
+1. 脚本已内置自动回退机制：本地ChromeDriver版本不匹配时，会自动使用 Selenium Manager 下载匹配版本
+2. 如需手动更新，查看Chrome浏览器版本（设置→关于Chrome），下载对应版本: https://chromedriver.chromium.org/downloads
 3. 替换 `chromedriver-win64/chromedriver.exe`
 
 #### 2. PIL兼容性问题
@@ -728,11 +730,25 @@ A: 在config_workflow.json中设置 `"enable_email_alert": false`。
 
 ### C. 更新日志
 
+**v2.2 (2026-08-01)**
+- ✅ 修复 handle_captcha() 逻辑：先点击登录再检测滑块（滑块是登录后才弹出的）
+- ✅ 修复 handle_slider_verification() 移除重复点击登录按钮
+- ✅ 新增 ChromeDriver 自动回退机制（Selenium Manager）
+- ✅ 新增 webdriver-manager 依赖
+- ✅ 完善 requirements.txt
+
+**v2.1 (2026-07-31)**
+- ✅ 修复 GitHub Actions 字体警告导致 exit code 1 的问题
+- ✅ 滑块验证整体流程增加多轮重试机制（3轮完整重试）
+- ✅ 同步滑块验证逻辑到 workflow 版本
+- ✅ 更新 GUIDE.md 使用指南
+
 **v2.0 (2026-07-28)**
-- ✅ 新增滑块验证支持
+- ✅ 新增滑块验证支持（captcha-recognizer）
 - ✅ 优化验证方式自动检测
 - ✅ 增加多轮重试机制
 - ✅ 完善测试脚本
+- ✅ 新增 GUIDE.md 使用指南
 
 **v1.0 (2025-07-27)**
 - ✅ 初始版本发布
@@ -752,4 +768,4 @@ MIT License
 
 如有问题或建议，请通过GitHub Issues提交。
 
-**最后更新**: 2026-07-28
+**最后更新**: 2026-08-01
