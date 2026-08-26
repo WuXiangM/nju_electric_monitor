@@ -2,7 +2,7 @@ name: Auto Monitor Schedule
 
 on:
   schedule:
-    - cron: "0 1,7,13 * * *" # UTC 时间对应北京时间 9:00, 15:00, 21:00
+    - cron: "0 */4 * * *" # 每4小时运行一次（北京时间 0:00, 4:00, 8:00, 12:00, 16:00, 20:00）
   workflow_dispatch:
 
 permissions:
@@ -25,7 +25,7 @@ jobs:
 
     steps:
     - name: Check out repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Cache pip
       uses: actions/cache@v4
@@ -40,7 +40,7 @@ jobs:
       run: df -h
 
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         # 固定为 3.11，确保 ddddocr==1.4.11 有可用轮子
         python-version: '3.11'
